@@ -1,0 +1,114 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>News Feed</title>
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Add theme here -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/sandstone/bootstrap.min.css" rel="stylesheet" integrity="sha384-G3G7OsJCbOk1USkOY4RfeX1z27YaWrZ1YuaQ5tbuawed9IoreRDpWpTkZLXQfPm3" crossorigin="anonymous">
+    <!-- Icons -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <!-- Custom Style-->
+    <link rel="stylesheet" type="text/css" href="{%  static 'app/css/style.css' %}">
+
+    <!-- Angular -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <!-- Angular ngRoute -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-route.min.js"> </script>
+    <!-- Angular ngAnimate -->
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"> </script>
+    <!-- UI Router -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.4.2/angular-ui-router.js"></script>
+
+    <!-- Angular -->
+    <script src="{% static 'app/js/news.min.js' %}"></script>
+
+</head>
+<body ng-app="app" ng-controller="newsController as news" ng-init="loadNews()">
+
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header text-center">
+            <a class="navbar-brand text-center" href="/">N E W S &nbsp; F E E D S</a>
+        </div>
+        <div id="navbar">
+            <ul class="nav navbar-nav navbar-right">
+                {% verbatim %}
+                <li><a>Last refresh: {{ lastRefresh }}</a></li>
+                {% endverbatim %}
+                <li style="cursor: pointer; cursor: hand; "><a ng-click="loadNews()"><span class="fa fa-refresh"></span></a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div id="main" class="container">
+
+    {% verbatim %}
+
+    <div ng-hide="bbc && cnn">
+        <div class="container text-center" style="padding-top: 120px;">
+            <i class="fa fa-circle-o-notch fa-spin" style="font-size:2em"></i>
+            <br/>
+            <br/>
+            <p class="lead">Loading news...</p>
+        </div>
+    </div>
+
+    <div ng-show="bbc && cnn">
+        <div class="col-xs-6">
+
+            <h1 class="alert alert-info text-center" style="background-color: #bb1919">BBC</h1>
+
+            <div class="panel" ng-repeat="feed in bbc track by $index">
+                <div class="panel-body">
+                    <h2 class="text-center">{{ feed.title }}</h2>
+                    <div class="text-center">
+                        <img ng-src="{{ feed.media_thumbnail }}" class="img-rounded img-responsive text-center">
+                    </div>
+                    <hr/>
+                    <p>{{ feed.description }}</p>
+                    <a ng-href="{{ feed.link }}">Read more...</a>
+                </div>
+                <div class="panel-footer">
+                    <small>Published on: <i>{{ feed.pubdate }}</i></small>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-xs-6">
+
+            <h1 class="alert alert-info text-center" style="background-color: rgb(204, 0, 0)">CNN</h1>
+
+            <div class="panel" ng-repeat="feed in cnn track by $index">
+                <div class="panel-body">
+                    <h2 class="text-center">{{ feed.title }}</h2>
+                    <div class="text-center">
+                        <img ng-src="{{ feed.media_group }}" class="img-rounded img-responsive text-center">
+                    </div>
+                    <hr/>
+                    <p>{{ feed.description }}</p>
+                    <a ng-href="{{ feed.link }}">Read more...</a>
+                </div>
+                <div class="panel-footer">
+                    <small>Published on: <i>{{ feed.pubdate }}</i></small>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    {% endverbatim %}
+
+</div>
+
+</body>
+</html>
