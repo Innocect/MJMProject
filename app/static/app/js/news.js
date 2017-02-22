@@ -47,6 +47,7 @@
                 return $.ajax({
                     url:'/cnn'
                 }).done(function (data) {
+                    console.log(data);
                     $(data).find('item').each(function () {
                         var json = parseData(this);
                         feed.push(json);
