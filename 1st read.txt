@@ -1,0 +1,2 @@
+git remote add origin https://github.com/Innocect/MJMProject.git
+project for manali janvi mahima(MJM)
